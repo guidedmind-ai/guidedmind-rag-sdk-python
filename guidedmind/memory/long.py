@@ -1,9 +1,6 @@
 """Long Memory client for the GuidedMind SDK."""
 
-from datetime import datetime
-from typing import Any, Dict, List, Optional
-
-import httpx
+from typing import Any, Dict, Optional
 
 from guidedmind.memory.types import (
     LongMemorySearchResponse,

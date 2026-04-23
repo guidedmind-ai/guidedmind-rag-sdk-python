@@ -1,9 +1,6 @@
 """Short Memory client for the GuidedMind SDK."""
 
-from datetime import datetime
 from typing import Any, Dict, Optional
-
-import httpx
 
 from guidedmind.memory.types import (
     AddRecordRequest,

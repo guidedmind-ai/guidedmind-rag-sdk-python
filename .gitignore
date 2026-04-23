@@ -82,3 +82,5 @@ DEVELOPMENT.md
 SECURITY.md
 
 tasks/*.*
+
+coverage.xml

@@ -1,6 +1,5 @@
 """Documents client for the GuidedMind RAG SDK."""
 
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
@@ -140,12 +139,12 @@ class DocumentsClient:
                 raise APIError(
                     message="Request timed out",
                     status_code=408,
-                )
+                ) from None
             except httpx.NetworkError as e:
                 raise APIError(
                     message=f"Network error: {str(e)}",
                     status_code=0,
-                )
+                ) from e
 
     def upload_and_process(
         self,
@@ -213,12 +212,12 @@ class DocumentsClient:
                 raise APIError(
                     message="Request timed out",
                     status_code=408,
-                )
+                ) from None
             except httpx.NetworkError as e:
                 raise APIError(
                     message=f"Network error: {str(e)}",
                     status_code=0,
-                )
+                ) from e
 
     async def aupload(
         self,
@@ -285,12 +284,12 @@ class DocumentsClient:
                 raise APIError(
                     message="Request timed out",
                     status_code=408,
-                )
+                ) from None
             except httpx.NetworkError as e:
                 raise APIError(
                     message=f"Network error: {str(e)}",
                     status_code=0,
-                )
+                ) from e
 
     async def aupload_and_process(
         self,
@@ -361,9 +360,9 @@ class DocumentsClient:
                 raise APIError(
                     message="Request timed out",
                     status_code=408,
-                )
+                ) from None
             except httpx.NetworkError as e:
                 raise APIError(
                     message=f"Network error: {str(e)}",
                     status_code=0,
-                )
+                ) from e

@@ -3,7 +3,7 @@
 import os
 import ssl
 from datetime import datetime
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import httpx
 from httpx import Limits
@@ -266,12 +266,12 @@ class Client:
             raise APIError(
                 message="Request timed out",
                 status_code=408,
-            )
+            ) from None
         except httpx.NetworkError as e:
             raise APIError(
                 message=f"Network error: {str(e)}",
                 status_code=0,
-            )
+            ) from e
 
     async def asearch(
         self,
@@ -343,12 +343,12 @@ class Client:
             raise APIError(
                 message="Request timed out",
                 status_code=408,
-            )
+            ) from None
         except httpx.NetworkError as e:
             raise APIError(
                 message=f"Network error: {str(e)}",
                 status_code=0,
-            )
+            ) from e
 
     def close(self) -> None:
         """Close the HTTP client and release resources."""
