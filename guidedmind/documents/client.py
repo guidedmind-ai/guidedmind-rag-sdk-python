@@ -256,9 +256,9 @@ class DocumentsClient:
         # Make request with file
         start_time = datetime.utcnow()
 
-        async with open(path, "rb") as f:
+        with open(path, "rb") as f:
             # Read file content
-            content = await f.read()
+            content = f.read()
 
             files = {"file": (path.name, content, "application/octet-stream")}
             data = payload
@@ -328,9 +328,9 @@ class DocumentsClient:
         # Make request with file
         start_time = datetime.utcnow()
 
-        async with open(path, "rb") as f:
+        with open(path, "rb") as f:
             # Read file content
-            content = await f.read()
+            content = f.read()
 
             files = {"file": (path.name, content, "application/octet-stream")}
             data = payload

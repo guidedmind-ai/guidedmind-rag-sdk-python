@@ -1,6 +1,6 @@
 """Memory client wrapper for the GuidedMind SDK."""
 
-from typing import Any, Dict
+from typing import Any, Dict, cast
 
 from guidedmind.memory.long import LongMemoryClient
 from guidedmind.memory.short import ShortMemoryClient
@@ -35,17 +35,17 @@ class MemoryClient:
     @property
     def _base_url(self) -> str:
         """Delegate to parent client's base_url."""
-        return self._parent._base_url
+        return cast(str, self._parent._base_url)
 
     @property
     def _api_key(self) -> str:
         """Delegate to parent client's api_key."""
-        return self._parent._api_key
+        return cast(str, self._parent._api_key)
 
     @property
     def _headers(self) -> Dict[str, str]:
         """Delegate to parent client's headers."""
-        return self._parent._headers
+        return cast(Dict[str, str], self._parent._headers)
 
     def _get_client(self) -> Any:
         """Delegate to parent client's _get_client."""

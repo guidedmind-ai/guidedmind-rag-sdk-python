@@ -60,10 +60,14 @@ class Client:
             ValueError: If base_url doesn't use HTTPS.
         """
         # Get API key from argument or environment variable
-        self._api_key = api_key or os.environ.get("GUIDEDMIND_API_KEY")
+        api_key_value = api_key or os.environ.get("GUIDEDMIND_API_KEY")
 
-        # Validate API key
-        validate_api_key(self._api_key)
+        # Validate API key (will raise ValueError if None or invalid)
+        validate_api_key(api_key_value)
+
+        # Store validated API key (assert to narrow type from Optional[str] to str)
+        assert api_key_value is not None
+        self._api_key = api_key_value
 
         # Validate base URL
         validate_base_url(base_url)
@@ -353,18 +357,30 @@ class Client:
             self._client = None
 
         if self._async_client is not None:
-            self._async_client.close()
+            # Note: async client will be closed via aclose()
+            # This is a no-op for sync close
             self._async_client = None
 
     async def aclose(self) -> None:
         """Async version of close()."""
-        self.close()
+        if self._client is not None:
+            self._client.close()
+            self._client = None
+
+        if self._async_client is not None:
+            await self._async_client.aclose()
+            self._async_client = None
 
     def __enter__(self) -> "Client":
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[object],
+    ) -> None:
         """Context manager exit."""
         self.close()
 
@@ -372,6 +388,11 @@ class Client:
         """Async context manager entry."""
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
+    async def __aexit__(
+        self,
+        exc_type: Optional[type],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[object],
+    ) -> None:
         """Async context manager exit."""
         await self.aclose()

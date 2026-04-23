@@ -34,7 +34,7 @@ def redact_api_key(text: str) -> str:
     return API_KEY_PATTERN.sub("rk_***REDACTED***", text)
 
 
-def validate_api_key(api_key: str) -> None:
+def validate_api_key(api_key: Optional[str]) -> None:
     """Validate API key format before use.
 
     Args:
