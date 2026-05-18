@@ -32,8 +32,8 @@ class APIError(GuidedMindError):
     ):
         self.status_code = status_code
         self.response_body = response_body
-        # Store sanitized message
-        super().__init__(self._get_safe_message(message))
+        self.message = self._get_safe_message(message)
+        super().__init__(self.message)
 
     def _get_safe_message(self, message: str) -> str:
         """Return a safe message without sensitive data."""
@@ -42,5 +42,7 @@ class APIError(GuidedMindError):
         return redact_api_key(message)
 
     def __str__(self) -> str:
-        """Return generic error message for users."""
+        """Return error message with status code and detail."""
+        if self.message:
+            return f"API request failed with status {self.status_code}: {self.message}"
         return f"API request failed with status {self.status_code}"
